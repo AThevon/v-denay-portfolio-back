@@ -42,7 +42,7 @@ class FileController extends Controller
   public function uploadProfilePicture(Request $request)
   {
     $request->validate([
-      'profile_picture' => 'required|image|mimes:jpg,jpeg,png|max:8120',
+      'profile_picture' => 'required|image|mimes:jpg,jpeg,png|max:10240',
     ]);
 
     // Supprimer l'ancienne photo de profil

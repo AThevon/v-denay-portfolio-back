@@ -103,3 +103,15 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    document.querySelector('input[name="profile_picture"]').addEventListener('change', function() {
+        if (this.files[0].size > 10485760) {
+            const errorMsg = document.createElement('p');
+            errorMsg.classList.add('text-red-600', 'mt-1');
+            errorMsg.textContent = 'Le fichier ne doit pas dépasser 10 Mo.';
+            this.parentNode.appendChild(errorMsg);
+            this.value = '';
+        }
+    });
+</script>
