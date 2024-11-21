@@ -13,7 +13,7 @@ class SocialLinkSeeder extends Seeder
    */
   public function run(): void
   {
-    SocialLink::insert([
+    $socialLinks = [
       [
         'platform' => 'instagram',
         'url' => 'https://www.instagram.com/nitro_vision?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
@@ -24,6 +24,13 @@ class SocialLinkSeeder extends Seeder
         'url' => 'https://www.linkedin.com/in/victor-denay-844889256/',
         'description' => 'Rejoignez-moi sur LinkedIn',
       ],
-    ]);
+    ];
+
+    foreach ($socialLinks as $link) {
+      SocialLink::updateOrCreate(
+        ['platform' => $link['platform']], // Condition : la plateforme doit être unique
+        ['url' => $link['url'], 'description' => $link['description']] // Mise à jour ou création
+      );
+    }
   }
 }
