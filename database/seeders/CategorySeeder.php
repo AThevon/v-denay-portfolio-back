@@ -9,7 +9,7 @@ class CategorySeeder extends Seeder
 {
   public function run()
   {
-    Category::insert([
+    $categories = [
       [
         'title' => 'musique',
         'image' => env('AWS_BUCKET_LINK') . '/categories/music.jpg',
@@ -22,6 +22,13 @@ class CategorySeeder extends Seeder
         'title' => 'fiction',
         'image' => env('AWS_BUCKET_LINK') . '/categories/fiction.jpg',
       ],
-    ]);
+    ];
+
+    foreach ($categories as $category) {
+      Category::updateOrCreate(
+        ['title' => $category['title']],
+        ['image' => $category['image']]
+      );
+    }
   }
 }
