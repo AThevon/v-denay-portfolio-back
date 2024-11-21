@@ -14,7 +14,9 @@ class Project extends Model
   protected $casts = [
     'date' => 'datetime',
   ];
-  
+
+  protected $hidden = ['created_at', 'updated_at', 'category_id'];
+
   public function category()
   {
     return $this->belongsTo(Category::class);

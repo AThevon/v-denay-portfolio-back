@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
+
+  public function getAllCategories()
+  {
+    // Récupère toutes les catégories avec leurs images
+    $categories = Category::select('id', 'title', 'image')->get();
+
+    return response()->json($categories);
+  }
   /**
    * Display a listing of the resource.
    */

@@ -10,6 +10,40 @@ use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
+  public function getProjectsByCategory($category)
+  {
+    // Trouve la catégorie par son titre (ou autre critère)
+    $categoryModel = Category::where('title', $category)->first();
+
+    // Vérifie si la catégorie existe
+    if (!$categoryModel) {
+      return response()->json(['error' => 'Category not found'], 404);
+    }
+
+    // Récupère les projets associés à cette catégorie avec leurs relations
+    $projects = Project::with(['category', 'roles'])
+      ->where('category_id', $categoryModel->id)
+      ->select('id', 'title', 'image', 'url', 'date', 'client', 'category_id')
+      ->get()
+      ->map(function ($project) {
+        return [
+          'id' => $project->id,
+          'title' => $project->title,
+          'image' => $project->image,
+          'url' => $project->url,
+          'date' => $project->date,
+          'client' => $project->client,
+          'category' => [
+            'title' => $project->category->title,
+            'image' => $project->category->image,
+          ],
+          'roles' => $project->roles->pluck('name')->toArray(),
+        ];
+      });
+
+    return response()->json($projects);
+  }
+
   /**
    * Display a listing of the resource.
    */

@@ -18,7 +18,7 @@ class ProjectSeeder extends Seeder
       // Trouver ou créer la catégorie
       $category = Category::firstOrCreate(
         ['title' => $item['category']],
-        ['image' => null, 'icon' => null] // Valeurs par défaut si la catégorie est créée
+        ['image' => null] // Valeurs par défaut si la catégorie est créée
       );
 
       // Créer le projet

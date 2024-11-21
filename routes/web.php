@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\CVController;
 
 Route::get('/', function () {
   return view('dashboard');
@@ -28,6 +29,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
   Route::get('/photos', [PhotoController::class, 'index'])->name('photos.index');
   Route::post('/photos', [PhotoController::class, 'store'])->name('photos.store');
+
+  // Afficher le formulaire pour uploader un CV
+  Route::get('/cv', [CVController::class, 'index'])->name('cv.index');
+
+  // Upload d'un nouveau CV
+  Route::post('/cv/upload', [CVController::class, 'uploadCV'])->name('cv.upload');
 });
 
 require __DIR__ . '/auth.php';

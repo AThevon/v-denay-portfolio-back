@@ -15,7 +15,6 @@ return new class extends Migration {
       $table->id();
       $table->string('title'); // Ex: 'musique'
       $table->string('image')->nullable(); // Ex: 'music.jpg'
-      $table->string('icon')->nullable(); // Ex: 'AudioLines' (si nécessaire pour le frontend)
       $table->timestamps();
     });
 

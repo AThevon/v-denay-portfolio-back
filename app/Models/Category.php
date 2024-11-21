@@ -8,5 +8,8 @@ class Category extends Model
 {
   use HasFactory;
 
-  protected $fillable = ['title', 'image', 'icon'];
+  protected $fillable = ['title', 'image'];
+
+  protected $hidden = ['created_at', 'updated_at'];
+
 }

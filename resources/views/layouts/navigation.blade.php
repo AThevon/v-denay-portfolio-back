@@ -35,6 +35,10 @@
                     <x-nav-link :href="route('photos.index')" :active="request()->routeIs('photos.*')">
                         {{ __('Photos') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('cv.index')" :active="request()->routeIs('cv.*')">
+                        {{ __('CV') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -119,6 +123,11 @@
             <x-responsive-nav-link :href="route('photos.index')" :active="request()->routeIs('photos.*')">
                 {{ __('Photos') }}
             </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('cv.index')" :active="request()->routeIs('cv.*')">
+                {{ __('CV') }}
+            </x-responsive-nav-link>
+
         </div>
 
         <!-- Responsive Settings Options -->
