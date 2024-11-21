@@ -19,7 +19,12 @@ return [
 
   'allowed_methods' => ['*'],
 
-  'allowed_origins' => ['https://victordenay.com', 'https://www.victordenay.com', 'http://localhost:3000'],
+  'allowed_origins' => [
+    'https://victordenay.com',
+    'https://www.victordenay.com',
+    'https://api.victordenay.com',
+    'http://localhost:3000',
+  ],
 
   'allowed_origins_patterns' => [],
 
