@@ -12,36 +12,45 @@ class ProjectController extends Controller
 {
   public function getProjectsByCategory($category)
   {
-    // Trouve la catégorie par son titre (ou autre critère)
     $categoryModel = Category::where('title', $category)->first();
 
-    // Vérifie si la catégorie existe
     if (!$categoryModel) {
       return response()->json(['error' => 'Category not found'], 404);
     }
 
-    // Récupère les projets associés à cette catégorie avec leurs relations
+    // Récupération paginée des projets
     $projects = Project::with(['category', 'roles'])
       ->where('category_id', $categoryModel->id)
-      ->select('id', 'title', 'image', 'url', 'date', 'client', 'category_id')
-      ->get()
-      ->map(function ($project) {
-        return [
-          'id' => $project->id,
-          'title' => $project->title,
-          'image' => $project->image,
-          'url' => $project->url,
-          'date' => $project->date,
-          'client' => $project->client,
-          'category' => [
-            'title' => $project->category->title,
-            'image' => $project->category->image,
-          ],
-          'roles' => $project->roles->pluck('name')->toArray(),
-        ];
-      });
+      ->orderBy('date', 'desc')
+      ->paginate(5);
 
+    // Retourne les projets en JSON (les accessors et relations sont automatiquement inclus)
     return response()->json($projects);
+  }
+
+  public function getFeaturedProject()
+  {
+    // Récupère le projet mis en avant avec les relations
+    $featuredProject = Project::with(['category'])->where('featured', true)->first();
+
+    if ($featuredProject) {
+      return response()->json($featuredProject);
+    } else {
+      return response()->json([
+        'error' => 'No featured project found.',
+      ], 404);
+    }
+  }
+
+  public function feature(Project $project)
+  {
+    // Désactiver la mise en avant pour tous les autres projets
+    Project::where('featured', true)->update(['featured' => false]);
+
+    // Activer la mise en avant pour le projet sélectionné
+    $project->update(['featured' => true]);
+
+    return redirect()->back()->with('success', 'Le projet a été mis en avant avec succès.');
   }
 
   /**
@@ -50,7 +59,10 @@ class ProjectController extends Controller
   public function index()
   {
     // Récupère tous les projets avec leurs catégories et rôles
-    $projects = Project::with(['category', 'roles'])->orderBy('created_at', 'desc')->paginate(9); // Pagination
+    $projects = Project::with(['category', 'roles'])
+      ->orderBy('featured', 'desc') // Projets en avant d'abord
+      ->orderBy('created_at', 'desc') // Puis trie par date de création
+      ->paginate(9); // Pagination
     return view('projects.index', compact('projects'));
   }
 

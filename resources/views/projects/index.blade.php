@@ -49,6 +49,13 @@
                             class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
                             Modifier
                         </a>
+                        <form action="{{ route('projects.feature', $project) }}" method="POST">
+                            @csrf
+                            <button type="submit"
+                                class="text-sm font-semibold px-3 py-1 rounded-lg text-white {{ $project->featured ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-600 hover:bg-gray-700' }}">
+                                {{ $project->featured ? 'Mis en avant' : 'Mettre en avant' }}
+                            </button>
+                        </form>
                         <form action="{{ route('projects.destroy', $project) }}" method="POST">
                             @csrf
                             @method('DELETE')

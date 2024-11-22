@@ -27,6 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
   Route::resource('/projects', ProjectController::class)
     ->except(['show']);
+  Route::post('/projects/{project}/feature', [ProjectController::class, 'feature'])->name('projects.feature');
   Route::resource('/roles', RoleController::class)
     ->except(['show']);
   Route::resource('/categories', CategoryController::class)
