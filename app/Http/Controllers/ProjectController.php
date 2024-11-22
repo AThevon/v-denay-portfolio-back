@@ -73,7 +73,7 @@ class ProjectController extends Controller
     $validated = $request->validate([
       'title' => 'required|string|max:255',
       'category_id' => 'required|exists:categories,id',
-      'image' => 'required|image|mimes:jpg,png,jpeg|max:8000',
+      'image' => 'required|image|mimes:jpg,png,jpeg|max:10240',
       'url' => 'nullable|url',
       'date' => 'nullable|date',
       'client' => 'nullable|string|max:255',
